@@ -12,6 +12,7 @@ class DiscountFilter(admin.SimpleListFilter):
             ('<20&>10','mid'),
             ('>20','big')
         ]
+        
     def queryset(self, request, queryset):
         if self.value() == '<10':
             return queryset.filter(discount__lt=10)
@@ -41,6 +42,7 @@ class ProductAdmin(admin.ModelAdmin):
         updated_discount = queryset.update(discount=None)
         self.message_user(
             request,f'{updated_discount}products were successfully updated',messages.ERROR)
+
     @admin.action(description='%%10 discount')
     def Ten_percent_discount(self,request,queryset):
         updated_discount = queryset.update(discount=10)
