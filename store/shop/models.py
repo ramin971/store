@@ -39,7 +39,9 @@ class Color(models.Model):
         return self.value
 
 class Size(models.Model):
-    value = models.PositiveSmallIntegerField(validators=[MinValueValidator(39),MaxValueValidator(46)],unique=True)
+    STATUS_CHOICES = [(str(i),str(i)) for i in range(40,47)]
+    value = models.CharField(max_length=2,choices=STATUS_CHOICES)
+    # value = models.PositiveSmallIntegerField(validators=[MinValueValidator(39),MaxValueValidator(46)],unique=True)
 
     def __str__(self):
         return self.value
@@ -59,7 +61,7 @@ class Product(models.Model):
     description = models.TextField(blank=True,null=True)
     discount = models.PositiveSmallIntegerField(null=True,blank=True,validators=[MinValueValidator(1),MaxValueValidator(99)])
     size = models.ManyToManyField(Size,related_name='products')
-    info = models.ManyToManyField(Info,related_name='products')
+    info = models.ManyToManyField(Info,blank=True,related_name='products')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
