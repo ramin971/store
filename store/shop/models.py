@@ -1,9 +1,10 @@
 from django.db import models
-from django.core.validators import MinValueValidator,MaxValueValidator
+from django.core.validators import MinValueValidator,MaxValueValidator,RegexValidator
 from django.utils.text import slugify
 from django.contrib.auth.models import User
 from rest_framework.exceptions import NotAcceptable
-
+from django.shortcuts import get_object_or_404
+from rest_framework.exceptions import NotAcceptable
 # Create your models here.
 
 class Category(models.Model):
@@ -105,4 +106,69 @@ class Variation(models.Model):
     def __str__(self):
         return str(self.product)
 
+class Coupon(models.Model):
+    code = models.CharField(max_length=15)
+    amount = models.PositiveSmallIntegerField()
 
+    def __str__(self):
+        return self.code
+
+
+class Basket(models.Model):
+    STATUS_CHOICES = (('queue','Queue'),('providing','Providing'),('sent','Sent'))
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='baskets')
+    tracking_code = models.CharField(max_length=8,blank=True,null=True,unique=True)
+    ordered_date = models.DateTimeField(null=True,blank=True)
+    payment = models.BooleanField(default=False)
+    status = models.CharField(max_length=10,choices=STATUS_CHOICES,default='queue')
+    coupon = models.ForeignKey(Coupon,on_delete=models.SET_NULL,null=True,blank=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user','coupon'],name='unique_coupon')
+        ]
+
+    def __str__(self):
+        return f'{self.user.username},{self.id}'
+
+    def save(self,*args,**kwargs):
+        if not self.payment:
+            temp_basket = get_object_or_404(Basket,user=self.user,payment=False)
+            if self !=  temp_basket:
+                raise NotAcceptable('Temporary Basket is already available')
+        # else:
+            # self.ordered_date = datetime.datetime.now()
+        super(Basket,self).save(*args,**kwargs)
+
+class OrderItem(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    quantity = models.PositiveSmallIntegerField(default=1)
+    basket = models.ForeignKey(Basket,on_delete=models.CASCADE,related_name='order_items')
+    variation = models.ForeignKey(Variation,on_delete=models.CASCADE,null=True,blank=True,related_name='order_items')
+
+    def __str__(self):
+        if self.variation:
+            return f'{self.product}({self.variation.color}){self.quantity}'
+        else:
+            return f'{self.product}{self.quantity}'
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User,on_delete=models.CASCADE,related_name='profile')
+    address = models.OneToOneField()
+    phone
+
+class Address(models.Model):
+    CITY_CHOICES = (('alborz','Alborz'),('ardabil','Ardabil'),('east azerbaijan','East Azerbaijan'),('west azerbaijan','West Azerbaijan'),('bushehr','Bushehr'),('chahar mahaal and bakhtiari','Chahar Mahaal and Bakhtiari'),('fars','Fars'),('gilan','Gilan'),('golestan','Golestan'),('hamadan','Hamadan'),('hormozgan','Hormozgan'),('ilam','Ilam'),('isfahan','Isfahan'),('kerman','Kerman'),('kermanshah','Kermanshah'),('north khorasan','North Khorasan'),('razavi khorasan','Razavi Khorasan'),('south khorasan','South Khorasan'),('khuzestan','Khuzestan'),('kohgiluyeh and boyer ahmad','Kohgiluyeh and Boyer Ahmad'),('kurdistan','Kurdistan'),('lorestan','Lorestan'),('markazi','Markazi'),('mazandaran','Mazandaran'),('qazvin','Qazvin'),('qom','Qom'),('semnan','Semnan'),('sistan and baltchestan','Sistan and Baluchestan'),('tehran','Tehran'),('yazd','Yazd'),('zanjan','Zanjan'))
+    city = models.CharField(max_length=30,choices=CITY_CHOICES,default='tehran')
+
+class ReceiverInformation(models.Model):
+    full_name = models.CharField(max_length=50)
+    address = models.CharField(max_length=400) 
+    phone=models.CharField(validators=[RegexValidator(regex='^[0][9][0-3][0-9]{8}$',message='phone number\
+         invalid',code='invalid_phone')],max_length=11,unique=True)
+    postal_code=models.CharField(validators=[RegexValidator(regex='^\d{10}$',message='must be 10 \
+        digit',code='invalid_postal_code')],max_length=10)
+    created = models.DateTimeField(auto_now_add=True)
+    

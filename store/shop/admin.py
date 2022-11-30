@@ -1,6 +1,6 @@
 from django.contrib import admin,messages
 from .models import Product,Category,Color,Size,Rating,Comment,Info,Variation,ProductImage
-
+from django.db.models import Avg
 
 class DiscountFilter(admin.SimpleListFilter):
     title = 'discount'
@@ -32,9 +32,9 @@ class VariationInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    autocomplete_fields = ['category','size']
+    autocomplete_fields = ['category','size','info']
     actions = ['clear_discount','Ten_percent_discount']
-    list_display = ['name','category','discount','sizes','created','updated']
+    list_display = ['name','rate','category','discount','sizes','created','updated']
     prepopulated_fields = {'slug':('name',)}
     list_editable = ['discount']
     list_select_related = ['category','category__parent']
@@ -43,10 +43,15 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ['name','category__istartswith']
     list_filter = ['category','updated',DiscountFilter]
     inlines = [ProductImageInline,VariationInline]
+    
 
     def sizes(self,obj):
         # return ','.join([str(i.value) for i in obj.size.all()])
         return list(obj.size.all().values_list('value',flat=True))
+
+    def rate(self,obj):
+        avg_rate = obj.rates.aggregate(avg=Avg('rate'))
+        return avg_rate['avg']
 
     @admin.action(description='Clear discount')
     def clear_discount(self,request,queryset):
@@ -68,9 +73,10 @@ class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug':('name',)}
 
 
-# @admin.register(Color)
-# class ColorAdmin(admin.ModelAdmin):
-#     list_display = ['value']
+@admin.register(Info)
+class InfoAdmin(admin.ModelAdmin):
+    list_display = ['value']
+    search_fields = ['value']
 
 @admin.register(Size)
 class SizeAdmin(admin.ModelAdmin):
@@ -78,19 +84,26 @@ class SizeAdmin(admin.ModelAdmin):
     search_fields = ['value']
 
 @admin.register(Color)
-class ProductAdmin(admin.ModelAdmin):
+class ColorAdmin(admin.ModelAdmin):
     list_display = ['value']
     search_fields = ['value']
 
 
-# @admin.register(Variation)
-# class VariationAdmin(admin.ModelAdmin):
-#     search_fields = ['color']
-#     list_display = ['product','color','discount','price','stock','created']
+@admin.register(Variation)
+class VariationAdmin(admin.ModelAdmin):
+    search_fields = ['color']
+    list_display = ['product','colors','discount','price','stock','created']
+    # list_display = ['product','discount','price','stock','created']
+
+    # list_select_related = ['product']
+    def colors(self,obj):
+        # return [obj.color.all().values_list('value',flat=True)]
+        return list(obj.color.all().values_list('value',flat=True))
+
 
 admin.site.register(Rating)
 # admin.site.register(Color)
 admin.site.register(ProductImage)
-admin.site.register(Info)
+# admin.site.register(Info)
 admin.site.register(Comment)
-admin.site.register(Variation)
+# admin.site.register(Variation)
