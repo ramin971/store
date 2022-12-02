@@ -114,12 +114,42 @@ class Coupon(models.Model):
         return self.code
 
 
+
+class Address(models.Model):
+    PROVINCE_CHOICES = (('alborz','Alborz'),('ardabil','Ardabil'),('east azerbaijan','East Azerbaijan'),('west azerbaijan','West Azerbaijan'),('bushehr','Bushehr'),('chahar mahaal and bakhtiari','Chahar Mahaal and Bakhtiari'),('fars','Fars'),('gilan','Gilan'),('golestan','Golestan'),('hamadan','Hamadan'),('hormozgan','Hormozgan'),('ilam','Ilam'),('isfahan','Isfahan'),('kerman','Kerman'),('kermanshah','Kermanshah'),('north khorasan','North Khorasan'),('razavi khorasan','Razavi Khorasan'),('south khorasan','South Khorasan'),('khuzestan','Khuzestan'),('kohgiluyeh and boyer ahmad','Kohgiluyeh and Boyer Ahmad'),('kurdistan','Kurdistan'),('lorestan','Lorestan'),('markazi','Markazi'),('mazandaran','Mazandaran'),('qazvin','Qazvin'),('qom','Qom'),('semnan','Semnan'),('sistan and baltchestan','Sistan and Baluchestan'),('tehran','Tehran'),('yazd','Yazd'),('zanjan','Zanjan'))
+    province = models.CharField(max_length=30,choices=PROVINCE_CHOICES,default='tehran')
+    full_address = models.TextField()
+
+
+class ReceiverInformation(models.Model):
+    full_name = models.CharField(max_length=50)
+    national_code=models.CharField(validators=[RegexValidator(regex='^\d{10}$',message='must be 10 \
+        digit',code='invalid_national_code')],max_length=10)
+    phone=models.CharField(validators=[RegexValidator(regex='^[0][9][0-3][0-9]{8}$',message='phone number\
+         invalid',code='invalid_phone')],max_length=11,unique=True)
+    address = models.ForeignKey(Address,on_delete=models.PROTECT,related_name='receiver')
+    postal_code=models.CharField(validators=[RegexValidator(regex='^\d{10}$',message='must be 10 \
+        digit',code='invalid_postal_code')],max_length=10)
+    created = models.DateTimeField(auto_now_add=True)
+    
+
+class Profile(models.Model):
+    user = models.OneToOneField(User,on_delete=models.CASCADE,related_name='profile')
+    reciver = models.OneToOneField(ReceiverInformation,on_delete=models.SET_NULL,null=True,blank=True)
+    phone=models.CharField(validators=[RegexValidator(regex='^[0][9][0-3][0-9]{8}$',message='phone number\
+         invalid',code='invalid_phone')],max_length=11,unique=True)
+
+    def __str__(self):
+        return self.user.username
+
+
 class Basket(models.Model):
     STATUS_CHOICES = (('queue','Queue'),('providing','Providing'),('sent','Sent'))
     user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='baskets')
     tracking_code = models.CharField(max_length=8,blank=True,null=True,unique=True)
     ordered_date = models.DateTimeField(null=True,blank=True)
     payment = models.BooleanField(default=False)
+    receiver = models.ForeignKey(ReceiverInformation,on_delete=models.PROTECT,related_name='baskets')
     status = models.CharField(max_length=10,choices=STATUS_CHOICES,default='queue')
     coupon = models.ForeignKey(Coupon,on_delete=models.SET_NULL,null=True,blank=True)
 
@@ -152,23 +182,3 @@ class OrderItem(models.Model):
             return f'{self.product}({self.variation.color}){self.quantity}'
         else:
             return f'{self.product}{self.quantity}'
-
-
-class Profile(models.Model):
-    user = models.OneToOneField(User,on_delete=models.CASCADE,related_name='profile')
-    address = models.OneToOneField()
-    phone
-
-class Address(models.Model):
-    CITY_CHOICES = (('alborz','Alborz'),('ardabil','Ardabil'),('east azerbaijan','East Azerbaijan'),('west azerbaijan','West Azerbaijan'),('bushehr','Bushehr'),('chahar mahaal and bakhtiari','Chahar Mahaal and Bakhtiari'),('fars','Fars'),('gilan','Gilan'),('golestan','Golestan'),('hamadan','Hamadan'),('hormozgan','Hormozgan'),('ilam','Ilam'),('isfahan','Isfahan'),('kerman','Kerman'),('kermanshah','Kermanshah'),('north khorasan','North Khorasan'),('razavi khorasan','Razavi Khorasan'),('south khorasan','South Khorasan'),('khuzestan','Khuzestan'),('kohgiluyeh and boyer ahmad','Kohgiluyeh and Boyer Ahmad'),('kurdistan','Kurdistan'),('lorestan','Lorestan'),('markazi','Markazi'),('mazandaran','Mazandaran'),('qazvin','Qazvin'),('qom','Qom'),('semnan','Semnan'),('sistan and baltchestan','Sistan and Baluchestan'),('tehran','Tehran'),('yazd','Yazd'),('zanjan','Zanjan'))
-    city = models.CharField(max_length=30,choices=CITY_CHOICES,default='tehran')
-
-class ReceiverInformation(models.Model):
-    full_name = models.CharField(max_length=50)
-    address = models.CharField(max_length=400) 
-    phone=models.CharField(validators=[RegexValidator(regex='^[0][9][0-3][0-9]{8}$',message='phone number\
-         invalid',code='invalid_phone')],max_length=11,unique=True)
-    postal_code=models.CharField(validators=[RegexValidator(regex='^\d{10}$',message='must be 10 \
-        digit',code='invalid_postal_code')],max_length=10)
-    created = models.DateTimeField(auto_now_add=True)
-    
