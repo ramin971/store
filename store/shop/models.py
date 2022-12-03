@@ -2,13 +2,13 @@ from django.db import models
 from django.core.validators import MinValueValidator,MaxValueValidator,RegexValidator
 from django.utils.text import slugify
 from django.contrib.auth.models import User
-from rest_framework.exceptions import NotAcceptable
+from rest_framework.exceptions import NotAcceptable,NotFound
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import NotAcceptable
 # Create your models here.
 
 class Category(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50,unique=True)
     slug = models.SlugField(unique=True)
     parent = models.ForeignKey('self',on_delete=models.CASCADE,null=True,blank=True,related_name='child')
 
@@ -56,11 +56,11 @@ class Info(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=100,unique=True)
+    name = models.CharField(max_length=100,unique=True,db_index=True)
     slug = models.SlugField(unique=True)
     category = models.ForeignKey(Category,on_delete=models.SET_NULL,null=True,related_name='products')
     description = models.TextField(blank=True,null=True)
-    discount = models.PositiveSmallIntegerField(null=True,blank=True,validators=[MinValueValidator(1),MaxValueValidator(99)])
+    # discount = models.PositiveSmallIntegerField(null=True,blank=True,validators=[MinValueValidator(1),MaxValueValidator(99)])
     size = models.ManyToManyField(Size,related_name='products')
     info = models.ManyToManyField(Info,blank=True,related_name='products')
     created = models.DateTimeField(auto_now_add=True)
@@ -97,11 +97,13 @@ class ProductImage(models.Model):
 
 class Variation(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE,related_name='variations')
-    color = models.ManyToManyField(Color,related_name='variations')
+    color = models.ManyToManyField(Color,blank=True,related_name='variations')
     price = models.PositiveIntegerField()
     discount = models.PositiveSmallIntegerField(null=True,blank=True,validators=[MinValueValidator(1),MaxValueValidator(99)])
     stock = models.PositiveSmallIntegerField()
     created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
     
     def __str__(self):
         return str(self.product)
@@ -132,6 +134,9 @@ class ReceiverInformation(models.Model):
         digit',code='invalid_postal_code')],max_length=10)
     created = models.DateTimeField(auto_now_add=True)
     
+    def __str__(self):
+        return self.full_name
+    
 
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,related_name='profile')
@@ -161,24 +166,42 @@ class Basket(models.Model):
     def __str__(self):
         return f'{self.user.username},{self.id}'
 
+    def get_total_price(self):
+        total = 0
+        for order_item in self.order_items.all():
+            total += order_item.get_total_product_price()
+            if self.coupon:
+                total -= self.coupon.amount
+        return total
+
     def save(self,*args,**kwargs):
         if not self.payment:
-            temp_basket = get_object_or_404(Basket,user=self.user,payment=False)
+            temp_basket = Basket.objects.get(user=self.user,payment=False)
             if self !=  temp_basket:
                 raise NotAcceptable('Temporary Basket is already available')
+            super(Basket,self).save(*args,**kwargs)
         # else:
             # self.ordered_date = datetime.datetime.now()
         super(Basket,self).save(*args,**kwargs)
 
 class OrderItem(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    # product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    variation = models.ForeignKey(Variation,on_delete=models.CASCADE,related_name='order_items')
     quantity = models.PositiveSmallIntegerField(default=1)
     basket = models.ForeignKey(Basket,on_delete=models.CASCADE,related_name='order_items')
-    variation = models.ForeignKey(Variation,on_delete=models.CASCADE,null=True,blank=True,related_name='order_items')
 
     def __str__(self):
-        if self.variation:
-            return f'{self.product}({self.variation.color}){self.quantity}'
+        if self.variation.color.exists():
+            return f'{self.variation.product.name}({self.variation.color})*{self.quantity}'
         else:
-            return f'{self.product}{self.quantity}'
+            return f'{self.variation.product.name}*{self.quantity}'
+
+    def get_total_product_price(self):
+        old_price = self.variation.price
+        discount = self.variation.discount
+        if discount:
+            price = old_price - (discount * old_price // 100)
+        else:
+            price = self.variation.price * self.quantity
+        return price * self.quantity

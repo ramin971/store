@@ -1,5 +1,5 @@
 from django.contrib import admin,messages
-from .models import Product,Category,Color,Size,Rating,Comment,Info,Variation,ProductImage
+from .models import Product,Category,Color,Size,Rating,Comment,Info,Variation,ProductImage,OrderItem,Basket
 from django.db.models import Avg
 
 class DiscountFilter(admin.SimpleListFilter):
@@ -33,15 +33,16 @@ class VariationInline(admin.TabularInline):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     autocomplete_fields = ['category','size','info']
-    actions = ['clear_discount','Ten_percent_discount']
-    list_display = ['name','rate','category','discount','sizes','created','updated']
+    # actions = ['clear_discount','Ten_percent_discount']
+    list_display = ['name','rate','category','sizes','created','updated']
     prepopulated_fields = {'slug':('name',)}
-    list_editable = ['discount']
+    # list_editable = ['discount']
     list_select_related = ['category','category__parent']
     ordering = ['-updated']
     list_per_page = 10
     search_fields = ['name','category__istartswith']
-    list_filter = ['category','updated',DiscountFilter]
+    # list_filter = ['category','updated',DiscountFilter]
+    list_filter = ['category','updated']
     inlines = [ProductImageInline,VariationInline]
     
 
@@ -92,7 +93,7 @@ class ColorAdmin(admin.ModelAdmin):
 @admin.register(Variation)
 class VariationAdmin(admin.ModelAdmin):
     search_fields = ['color']
-    list_display = ['product','colors','discount','price','stock','created']
+    list_display = ['product','colors','discount','price','stock','created','updated']
     # list_display = ['product','discount','price','stock','created']
 
     # list_select_related = ['product']
