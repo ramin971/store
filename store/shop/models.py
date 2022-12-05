@@ -23,7 +23,7 @@ class Category(models.Model):
         while parent:
             fullpath.append(parent.name)
             parent = parent.parent
-        return '-> '.join(fullpath[::-1])
+        return '/'.join(fullpath[::-1])
     
     def save(self,*args,**kwargs):
         self.slug = slugify(self.name)
@@ -41,7 +41,7 @@ class Color(models.Model):
 
 class Size(models.Model):
     STATUS_CHOICES = [(str(i),str(i)) for i in range(40,47)]
-    value = models.CharField(max_length=2,choices=STATUS_CHOICES)
+    value = models.CharField(max_length=2,choices=STATUS_CHOICES,unique=True)
     # value = models.PositiveSmallIntegerField(validators=[MinValueValidator(39),MaxValueValidator(46)],unique=True)
 
     def __str__(self):
@@ -61,7 +61,6 @@ class Product(models.Model):
     category = models.ForeignKey(Category,on_delete=models.SET_NULL,null=True,related_name='products')
     description = models.TextField(blank=True,null=True)
     # discount = models.PositiveSmallIntegerField(null=True,blank=True,validators=[MinValueValidator(1),MaxValueValidator(99)])
-    size = models.ManyToManyField(Size,related_name='products')
     info = models.ManyToManyField(Info,blank=True,related_name='products')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -97,7 +96,8 @@ class ProductImage(models.Model):
 
 class Variation(models.Model):
     product = models.ForeignKey(Product,on_delete=models.CASCADE,related_name='variations')
-    color = models.ManyToManyField(Color,blank=True,related_name='variations')
+    color = models.ForeignKey(Color,on_delete=models.CASCADE,related_name='variations')
+    size = models.ManyToManyField(Size,related_name='variations')
     price = models.PositiveIntegerField()
     discount = models.PositiveSmallIntegerField(null=True,blank=True,validators=[MinValueValidator(1),MaxValueValidator(99)])
     stock = models.PositiveSmallIntegerField()
@@ -106,21 +106,29 @@ class Variation(models.Model):
 
     
     def __str__(self):
-        return str(self.product)
+        return f'{self.product}({self.color})'
 
 class Coupon(models.Model):
-    code = models.CharField(max_length=15)
+    code = models.CharField(max_length=15,unique=True)
     amount = models.PositiveSmallIntegerField()
 
     def __str__(self):
         return self.code
 
-
+class Province(models.Model):
+    PROVINCE_CHOICES = (('alborz','Alborz'),('ardabil','Ardabil'),('east azerbaijan','East Azerbaijan'),('west azerbaijan','West Azerbaijan'),('bushehr','Bushehr'),('chahar mahaal and bakhtiari','Chahar Mahaal and Bakhtiari'),('fars','Fars'),('gilan','Gilan'),('golestan','Golestan'),('hamadan','Hamadan'),('hormozgan','Hormozgan'),('ilam','Ilam'),('isfahan','Isfahan'),('kerman','Kerman'),('kermanshah','Kermanshah'),('north khorasan','North Khorasan'),('razavi khorasan','Razavi Khorasan'),('south khorasan','South Khorasan'),('khuzestan','Khuzestan'),('kohgiluyeh and boyer ahmad','Kohgiluyeh and Boyer Ahmad'),('kurdistan','Kurdistan'),('lorestan','Lorestan'),('markazi','Markazi'),('mazandaran','Mazandaran'),('qazvin','Qazvin'),('qom','Qom'),('semnan','Semnan'),('sistan and baltchestan','Sistan and Baluchestan'),('tehran','Tehran'),('yazd','Yazd'),('zanjan','Zanjan'))
+    name = models.CharField(max_length=30,choices=PROVINCE_CHOICES,default='tehran',unique=True)
+    
+    def __str__(self):
+        return self.name
 
 class Address(models.Model):
-    PROVINCE_CHOICES = (('alborz','Alborz'),('ardabil','Ardabil'),('east azerbaijan','East Azerbaijan'),('west azerbaijan','West Azerbaijan'),('bushehr','Bushehr'),('chahar mahaal and bakhtiari','Chahar Mahaal and Bakhtiari'),('fars','Fars'),('gilan','Gilan'),('golestan','Golestan'),('hamadan','Hamadan'),('hormozgan','Hormozgan'),('ilam','Ilam'),('isfahan','Isfahan'),('kerman','Kerman'),('kermanshah','Kermanshah'),('north khorasan','North Khorasan'),('razavi khorasan','Razavi Khorasan'),('south khorasan','South Khorasan'),('khuzestan','Khuzestan'),('kohgiluyeh and boyer ahmad','Kohgiluyeh and Boyer Ahmad'),('kurdistan','Kurdistan'),('lorestan','Lorestan'),('markazi','Markazi'),('mazandaran','Mazandaran'),('qazvin','Qazvin'),('qom','Qom'),('semnan','Semnan'),('sistan and baltchestan','Sistan and Baluchestan'),('tehran','Tehran'),('yazd','Yazd'),('zanjan','Zanjan'))
-    province = models.CharField(max_length=30,choices=PROVINCE_CHOICES,default='tehran')
+    province = models.OneToOneField(Province,on_delete=models.PROTECT)
     full_address = models.TextField()
+
+    def __str__(self):
+        # return str(self.province)
+        return f'{self.province}/{self.full_address}'
 
 
 class ReceiverInformation(models.Model):
@@ -192,7 +200,7 @@ class OrderItem(models.Model):
     basket = models.ForeignKey(Basket,on_delete=models.CASCADE,related_name='order_items')
 
     def __str__(self):
-        if self.variation.color.exists():
+        if self.variation.color:
             return f'{self.variation.product.name}({self.variation.color})*{self.quantity}'
         else:
             return f'{self.variation.product.name}*{self.quantity}'
@@ -205,3 +213,4 @@ class OrderItem(models.Model):
         else:
             price = self.variation.price * self.quantity
         return price * self.quantity
+
