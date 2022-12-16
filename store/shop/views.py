@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
 from .models import Product,Category,Color,Size,Rating,Comment,Info,Variation,\
     ProductImage,OrderItem,Basket,Profile,Address,ReceiverInformation,Province
-
+from .serializers import ProductSerializer
 # Create your views here.
     
 
@@ -13,4 +13,4 @@ class ProductList(ListCreateAPIView):
         return Product.objects.all()
 
     def get_serializer_class(self):
-        return 
+        return ProductSerializer
