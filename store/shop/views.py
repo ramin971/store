@@ -14,3 +14,6 @@ class ProductList(ListCreateAPIView):
 
     def get_serializer_class(self):
         return ProductSerializer
+
+    def get_serializer_context(self):
+        return {'request':self.request}
