@@ -41,6 +41,11 @@ INSTALLED_APPS = [
     'shop',
     'debug_toolbar'
 ]
+# REST_FRAMEWORK = {
+#     'DEFAULT_PARSER_CLASSES': [
+#         'rest_framework.parsers.JSONParser',
+#     ]
+# }
 
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',

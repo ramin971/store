@@ -5,6 +5,7 @@ from .models import Product,Category,Color,Size,Rating,Comment,Info,Variation,\
 from django.shortcuts import get_object_or_404
 from django.db.models.aggregates import Min,Max,Avg,Sum
 import json
+from rest_framework.exceptions import ValidationError
 
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -64,8 +65,8 @@ class ProductSerializer(serializers.ModelSerializer):
     # images = ImageSerializer(many=True,write_only=True)
     # create image_list view and then try:
     # images = serializers.HyperlinkedRelatedField(many=True,view_name='image_list',read_only=True)
-    image = serializers.SerializerMethodField(read_only=True)
-    # 
+    # fffffffuck
+    # image = serializers.SerializerMethodField(read_only=True)
     # images= serializers.ListField(child=serializers.ImageField(max_length=512000),write_only=True)
 
     # info = InfoSerializer(many=True,write_only=True)
@@ -74,19 +75,59 @@ class ProductSerializer(serializers.ModelSerializer):
     # category = CategorySerializer(write_only=True)
     # category = serializers.StringRelatedField()
     category = serializers.CharField(write_only=True,max_length=50)
-    variations=VariationSerializer(many=True,write_only=True)
+    variations=VariationSerializer(many=True,read_only=True)
+    variations_json = serializers.JSONField(write_only=True)
     price = serializers.SerializerMethodField()
     discount = serializers.SerializerMethodField()
     new_price = serializers.SerializerMethodField()
     stock = serializers.SerializerMethodField()
     rate = serializers.SerializerMethodField()
+
+    def validate_variations_json(self,value):
+        if not isinstance(value,list):
+            ValidationError("variation_json expect a list")
+
+        for item in value:
+            serializer = VariationSerializer(data=item)
+            serializer.is_valid(raise_exception=True)
+        return value
+
+    # def __init__(self, instance=None, data=..., **kwargs):
+    #     data._mutable=True
+    #     data['variations']=json.loads(data['variations'])
+    #     super(ProductSerializer,self).__init__(instance, data, **kwargs)
+
+    # def to_internal_value(self, data):
+    #     instance=super(ProductSerializer,self).to_internal_value(data)
+    #     instance['variations']=json.loads(instance['variations'])
+    #     return instance
+
+    # def to_internal_value(self, data):
+    #     data._mutable=True
+    #     json_var=json.loads(data['variations'])
+    #     data['variations'] = json_var
+    #     return super(ProductSerializer,self).to_internal_value(data)
+    # def is_valid(self, *, raise_exception=False):
+    #     v=json.dumps(self.initial_data['variations'])
+    #     s=json.loads(v)
+    #     self.initial_data['variations']=s
+    #     return super().is_valid(raise_exception=raise_exception)
+
     class Meta:
         model = Product
         # add images to fields*********************************************
-        fields = ['id','name','description','info','image','category','variations','price','stock','rate','discount','new_price','updated']
+        fields = ['id','name','description','info','category','variations','variations_json','price','stock','rate','discount','new_price','updated']
         # fields = ['id','name','description','info','images','image','category','variations','updated']
         read_only_fields = ['id','price','stock','rate','discount','new_price','updated']
         extra_kwargs={'description':{'write_only':True}}
+
+    # def to_representation(self, instance):
+    #     data=super(ProductSerializer,self).to_representation(instance)
+    #     data['variations']=json.loads(data['variations'])
+    #     return data
+
+    # def tran
+
     
     def create(self, validated_data):
         category_data = validated_data.pop('category')
@@ -94,13 +135,13 @@ class ProductSerializer(serializers.ModelSerializer):
         category = get_object_or_404(Category,name=category_data)
         infos_data = validated_data.pop('info')
         # images_data = validated_data.pop('images')
-        variations_data = validated_data.pop('variations')
+        variations_data = validated_data.pop('variations_json')
+        # dump_var=json.dumps(variations_data)
+        # load_var=json.loads(variations_data)
         product = Product.objects.create(category=category,**validated_data)
-        # if images_data is not None:
-            # print('4.6')
-            # for image_data in images_data:
-                # print('5')
-                # ProductImage.objects.create(product=product,**image_data)
+        # for image_data in images_data:
+            # print('5')
+            # ProductImage.objects.create(product=product,**image_data)
         for info_data in infos_data:
             info = Info.objects.create(value=info_data)
             product.info.add(info)
