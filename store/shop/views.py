@@ -11,7 +11,7 @@ import json
 
 class ProductList(ListCreateAPIView):
     # parser_classes = [JSONParser]
-    parser_classes = [MultiPartParser,FormParser]
+    # parser_classes = [MultiPartParser,FormParser]
 
     def get_queryset(self):
         return Product.objects.all()
