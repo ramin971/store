@@ -21,10 +21,35 @@ class InfoSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    full_path=serializers.SerializerMethodField()
+    parent=serializers.CharField(write_only=True,max_length=50,allow_blank=True)
     class Meta:
         model = Category
-        fields = ['id','name','parent']
-        wrire_only_fields = ['parent']
+        fields = ['id','name','parent','full_path']
+        # fields = ['id','name','parent']
+
+        read_only_fields = ['id','full_path']
+        # extra_kwargs={'parent':{'write_only':True}}
+
+    def create(self, validated_data):
+        print('parent-get=',validated_data.get('parent'))
+        parent_name = validated_data.get('parent',None)
+        print('*********pop=',parent_name)
+        # if parent_name.exists():
+        if parent_name is not None:
+
+            parent=get_object_or_404(Category,name=parent_name)
+            category=Category.objects.create(parent=parent,**validated_data)
+        else:
+            category=Category.objects.create(parent=None,**validated_data)
+        return category
+
+
+
+        # return super().create(validated_data)
+
+    def get_full_path(self,instance):
+        return instance.__str__()
 
 class ColorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -45,12 +70,12 @@ class VariationSerializer(serializers.ModelSerializer):
         model = Variation
         fields = ['id','color','size','price','discount','stock','updated']
         read_only_fields = ['id','updated']
-
+    #  currently not used (bellow)
     def create(self, validated_data):
         color_data = validated_data.pop('color')
-        print('****color=',color_data)
+        # print('****color=',color_data)
         sizes_data = validated_data.pop('size')
-        print('#####size=',sizes_data)
+        # print('#####size=',sizes_data)
         # product_data = validated_data.pop('product_id')
         # product = Product.objects.get(pk=product_data)
         # product = get_object_or_404(Product,pk=product_data)
@@ -102,7 +127,7 @@ class ProductSerializer(serializers.ModelSerializer):
         read_only_fields = ['id','price','stock','rate','discount','new_price','updated']
         extra_kwargs={'description':{'write_only':True}}
 
-    # @transaction.atomic()
+    @transaction.atomic()
     def create(self, validated_data):
         category_data = validated_data.pop('category')
         # category=Category.objects.get(name=category_data)
@@ -136,6 +161,9 @@ class ProductSerializer(serializers.ModelSerializer):
                 variation.size.add(temp_size)
         return product
 
+    # def get_var(self,instance):
+    #     variation=instance.variations.all()
+    #     return variation
 
     def get_image(self,obj):
         request = self.context.get('request')
@@ -149,10 +177,14 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_stock(self,instance):
         stock = instance.variations.all().aggregate(stock=Sum('stock'))
+        # stock = self.get_var(instance=instance).aggregate(stock=Sum('stock'))
+
         return stock['stock']
 
     def get_price(self,instance):
         price = instance.variations.all().aggregate(min_price=Min('price'))
+        # price = self.get_var(instance=instance).aggregate(min_price=Min('price'))
+
         return price['min_price']
 
     def get_discount(self,instance):
@@ -171,3 +203,4 @@ class ProductSerializer(serializers.ModelSerializer):
             return new_price
         return old_price
         
+# class
