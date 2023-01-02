@@ -32,21 +32,13 @@ class CategorySerializer(serializers.ModelSerializer):
         # extra_kwargs={'parent':{'write_only':True}}
 
     def create(self, validated_data):
-        print('parent-get=',validated_data.get('parent'))
-        parent_name = validated_data.get('parent',None)
-        print('*********pop=',parent_name)
-        # if parent_name.exists():
-        if parent_name is not None:
-
+        parent_name = validated_data.pop('parent')
+        if parent_name:
             parent=get_object_or_404(Category,name=parent_name)
             category=Category.objects.create(parent=parent,**validated_data)
         else:
             category=Category.objects.create(parent=None,**validated_data)
         return category
-
-
-
-        # return super().create(validated_data)
 
     def get_full_path(self,instance):
         return instance.__str__()
