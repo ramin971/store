@@ -29,7 +29,7 @@ class CategorySerializer(serializers.ModelSerializer):
         read_only_fields = ['id','full_path']
 
     def create(self, validated_data):
-        print('####################################')
+        # print('####################################')
         parent_name = validated_data.pop('parent')
         if parent_name:
             parent=get_object_or_404(Category,name=parent_name)
@@ -165,9 +165,7 @@ class ProductSerializer(serializers.ModelSerializer):
                 variation.size.add(temp_size)
         return product
 
-    # def get_var(self,instance):
-    #     variation=instance.variations.all()
-    #     return variation
+    
 
     def get_image(self,obj):
         request = self.context.get('request')
@@ -175,21 +173,29 @@ class ProductSerializer(serializers.ModelSerializer):
         # images= [request.build_absolute_uri(i.image.url) for i in obj.images.all()]
         return image
 
+    # def get_rate(self,instance):
+    #     rate = instance.rates.all().aggregate(avg=Avg('rate'))
+    #     return rate['avg']
     def get_rate(self,instance):
-        rate = instance.rates.all().aggregate(avg=Avg('rate'))
-        return rate['avg']
+        rate = instance.avg_rate
+        return rate
 
+
+    # def get_stock(self,instance):
+    #     stock = instance.variations.all().aggregate(stock=Sum('stock'))
+    #     return stock['stock']
     def get_stock(self,instance):
-        stock = instance.variations.all().aggregate(stock=Sum('stock'))
-        # stock = self.get_var(instance=instance).aggregate(stock=Sum('stock'))
+        stock = instance.stock
+        return stock
+    
 
-        return stock['stock']
-
+    # def get_price(self,instance):
+    #     price = instance.variations.all().aggregate(min_price=Min('price'))
+    #     return price['min_price']
     def get_price(self,instance):
-        price = instance.variations.all().aggregate(min_price=Min('price'))
-        # price = self.get_var(instance=instance).aggregate(min_price=Min('price'))
+        price = instance.price
+        return price
 
-        return price['min_price']
 
     def get_discount(self,instance):
         # discount = instance.variations.all().aggregate(Min('price')).discount
@@ -207,4 +213,3 @@ class ProductSerializer(serializers.ModelSerializer):
             return new_price
         return old_price
         
-# class

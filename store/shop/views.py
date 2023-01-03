@@ -4,6 +4,8 @@ from .models import Product,Category,Color,Size,Rating,Comment,Info,Variation,\
     ProductImage,OrderItem,Basket,Profile,Address,ReceiverInformation,Province
 from .serializers import ProductSerializer,CategorySerializer
 import json
+# from django.db.models.aggregates import Sum,Avg,Count,Min,Max
+from django.db.models import Avg,Sum,Min,Max,Count
 # Create your views here.
     
 
@@ -11,7 +13,11 @@ import json
 class ProductList(ListCreateAPIView):
 
     def get_queryset(self):
-        return Product.objects.all()
+        # return Product.objects.all()
+        # return Product.objects.all().prefetch_related('variations').annotate(avg_rate=Avg('rates__rate'),stock=Sum('variations__stock'))
+        return Product.objects.all().annotate(avg_rate=Avg('rates__rate')
+        ,stock=Sum('variations__stock'),price=Min('variations__price'))
+
 
     def get_serializer_class(self):
         return ProductSerializer
@@ -34,7 +40,7 @@ class CategoryList(ListCreateAPIView):
 class CategoryDetail(RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.select_related('parent').all()
     serializer_class = CategorySerializer
-    
+
     # add partial=True to PUT method
     def put(self, request, *args, **kwargs):
         kwargs['partial'] = True 
