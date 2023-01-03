@@ -26,12 +26,10 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ['id','name','parent','full_path']
-        # fields = ['id','name','parent']
-
         read_only_fields = ['id','full_path']
-        # extra_kwargs={'parent':{'write_only':True}}
 
     def create(self, validated_data):
+        print('####################################')
         parent_name = validated_data.pop('parent')
         if parent_name:
             parent=get_object_or_404(Category,name=parent_name)
@@ -39,6 +37,20 @@ class CategorySerializer(serializers.ModelSerializer):
         else:
             category=Category.objects.create(parent=None,**validated_data)
         return category
+
+    def update(self, instance, validated_data):
+        # print('@@@@@@@@@@',validated_data)
+        if 'parent' in validated_data:
+            parent_name = validated_data.pop('parent')
+            if parent_name:
+                parent = get_object_or_404(Category,name=parent_name)
+                instance.parent = parent
+            else:
+                instance.parent = None
+            # print('!!!!!!!!!!!!!!!!!!!!!!')
+            # instance.save()
+
+        return super(CategorySerializer,self).update(instance, validated_data)
 
     def get_full_path(self,instance):
         return instance.__str__()
