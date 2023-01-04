@@ -126,7 +126,6 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        # add images to fields*********************************************
         fields = ['id','name','description','info','category','image','images','variations','price','stock','rate','discount','new_price','updated']
         read_only_fields = ['id','price','stock','rate','discount','new_price','updated']
         extra_kwargs={'description':{'write_only':True}}

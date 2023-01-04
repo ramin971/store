@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404
-from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView,ListAPIView
 from .models import Product,Category,Color,Size,Rating,Comment,Info,Variation,\
     ProductImage,OrderItem,Basket,Profile,Address,ReceiverInformation,Province
 from .serializers import ProductSerializer,CategorySerializer
@@ -18,7 +18,6 @@ class ProductList(ListCreateAPIView):
         return Product.objects.all().annotate(avg_rate=Avg('rates__rate')
         ,stock=Sum('variations__stock'),price=Min('variations__price'))
 
-
     def get_serializer_class(self):
         return ProductSerializer
 
@@ -32,6 +31,15 @@ class ProductList(ListCreateAPIView):
     #     request.data['variations']=json_variations
     #     # request.data=JSONRenderer().render(request.data)
     #     super().create(request, *args, **kwargs)
+
+class ProductByCategory(ListAPIView):
+    serializer_class=ProductSerializer
+    lookup_field='slug'
+    def get_queryset(self):
+        return Product.objects.filter(category__slug__iexact=self.kwargs['slug']).annotate(avg_rate=Avg('rates__rate')
+        ,stock=Sum('variations__stock'),price=Min('variations__price'))
+    def get_serializer_context(self):
+        return {'request':self.request}
 
 class CategoryList(ListCreateAPIView):
     queryset = Category.objects.select_related('parent').all()
