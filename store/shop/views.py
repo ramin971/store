@@ -34,15 +34,16 @@ class ProductList(ListCreateAPIView):
 
 class ProductByCategory(ListAPIView):
     serializer_class=ProductSerializer
-    lookup_field='slug'
+    # lookup_field='slug'
     def get_queryset(self):
+        # print(f'kwargs={self.kwargs},args={self.args}')
         return Product.objects.filter(category__slug__iexact=self.kwargs['slug']).annotate(avg_rate=Avg('rates__rate')
         ,stock=Sum('variations__stock'),price=Min('variations__price'))
     def get_serializer_context(self):
         return {'request':self.request}
 
 class CategoryList(ListCreateAPIView):
-    queryset = Category.objects.select_related('parent').all()
+    queryset = Category.objects.select_related('parent').all().annotate(products_count=Count('products'))
     serializer_class = CategorySerializer
 
 class CategoryDetail(RetrieveUpdateDestroyAPIView):

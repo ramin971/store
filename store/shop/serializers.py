@@ -23,10 +23,11 @@ class InfoSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     full_path=serializers.SerializerMethodField()
     parent=serializers.CharField(write_only=True,max_length=50,allow_blank=True)
+    products_count=serializers.SerializerMethodField()
     class Meta:
         model = Category
-        fields = ['id','name','parent','full_path']
-        read_only_fields = ['id','full_path']
+        fields = ['id','name','parent','products_count','full_path']
+        read_only_fields = ['id','full_path','products_count']
 
     def create(self, validated_data):
         # print('####################################')
@@ -54,6 +55,9 @@ class CategorySerializer(serializers.ModelSerializer):
 
     def get_full_path(self,instance):
         return instance.__str__()
+    
+    def get_products_count(self,instance):
+        return instance.products_count
 
 class ColorSerializer(serializers.ModelSerializer):
     class Meta:
