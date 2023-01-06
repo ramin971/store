@@ -1,4 +1,6 @@
 from django.shortcuts import render,get_object_or_404
+from .filters import ProductFilter
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView,ListAPIView
 from .models import Product,Category,Color,Size,Rating,Comment,Info,Variation,\
     ProductImage,OrderItem,Basket,Profile,Address,ReceiverInformation,Province
@@ -11,12 +13,19 @@ from django.db.models import Avg,Sum,Min,Max,Count
 
 
 class ProductList(ListCreateAPIView):
-
-    def get_queryset(self):
-        # return Product.objects.all()
-        # return Product.objects.all().prefetch_related('variations').annotate(avg_rate=Avg('rates__rate'),stock=Sum('variations__stock'))
-        return Product.objects.all().annotate(avg_rate=Avg('rates__rate')
+    queryset = Product.objects.all().annotate(avg_rate=Avg('rates__rate')
         ,stock=Sum('variations__stock'),price=Min('variations__price'))
+
+    serializer_class = ProductSerializer
+    filter_backends = [DjangoFilterBackend]
+    # filterset_fields=['']
+    filterset_class=ProductFilter
+
+    # def get_queryset(self):
+    #     # return Product.objects.all()
+    #     # return Product.objects.all().prefetch_related('variations').annotate(avg_rate=Avg('rates__rate'),stock=Sum('variations__stock'))
+    #     return Product.objects.all().annotate(avg_rate=Avg('rates__rate')
+    #     ,stock=Sum('variations__stock'),price=Min('variations__price'))
 
     def get_serializer_class(self):
         return ProductSerializer
@@ -54,29 +63,6 @@ class CategoryDetail(RetrieveUpdateDestroyAPIView):
     def put(self, request, *args, **kwargs):
         kwargs['partial'] = True 
         return self.update(request, *args, **kwargs)
-
-    # def perform_update(self, serializer):
-    #     request=self.request
-    #     # name=request.data.get('name')
-    #     if 'parent' in request.data:
-    #         print('1')
-    #         parent_name=request.data.get('parent')
-    #         # print('**********parentv=',parent_name,type(parent_name))
-    #         if parent_name:
-    #             print('2')
-    #             parent_obj=get_object_or_404(Category,name=parent_name)
-    #             print('parent',parent_obj,type(parent_obj))
-    #             # temp_category=Category(parent=parent)
-    #             serializer.save(parent=parent_obj)
-    #             # serializer.save(temp_category,data=request.data)
-    #         else:
-    #             print('3')
-    #             # temp_category=Category(parent=None)
-    #             serializer.save(parent=None)
-    #             # serializer.save(temp_category,data=request.data)
-    #         print('4')
-    #     print('##################')
-    #     return super().perform_update(serializer)
 
     # ????????
     # def update(self, request, *args, **kwargs):

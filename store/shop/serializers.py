@@ -28,6 +28,7 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = ['id','name','parent','products_count','full_path']
         read_only_fields = ['id','full_path','products_count']
+    
 
     def create(self, validated_data):
         # print('####################################')
