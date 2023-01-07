@@ -1,6 +1,6 @@
 from django.shortcuts import render,get_object_or_404
-from .filters import ProductFilter
-from django_filters.rest_framework import DjangoFilterBackend
+from .filters import ProductFilter,CustomOrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend,OrderingFilter
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView,ListAPIView
 from .models import Product,Category,Color,Size,Rating,Comment,Info,Variation,\
     ProductImage,OrderItem,Basket,Profile,Address,ReceiverInformation,Province
@@ -14,12 +14,13 @@ from django.db.models import Avg,Sum,Min,Max,Count
 
 class ProductList(ListCreateAPIView):
     queryset = Product.objects.all().annotate(avg_rate=Avg('rates__rate')
-        ,stock=Sum('variations__stock'),price=Min('variations__price'))
+        ,stock=Sum('variations__stock'),price=Min('variations__price')).order_by('-updated')
 
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend]
     # filterset_fields=['']
     filterset_class=ProductFilter
+    # ordering=['avg_rate']
 
     # def get_queryset(self):
     #     # return Product.objects.all()

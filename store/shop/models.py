@@ -84,7 +84,7 @@ class Comment(models.Model):
 class Rating(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     product = models.ForeignKey(Product,on_delete=models.CASCADE,related_name='rates')
-    rate = models.PositiveSmallIntegerField(validators=[MinValueValidator(0),MinValueValidator(5)])
+    rate = models.PositiveSmallIntegerField(validators=[MinValueValidator(0),MaxValueValidator(5)])
 
 
 class ProductImage(models.Model):
