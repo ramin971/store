@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404
-from .filters import ProductFilter,CustomOrderingFilter
+from .filters import ProductFilter
 from django_filters.rest_framework import DjangoFilterBackend,OrderingFilter
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView,ListAPIView
 from .models import Product,Category,Color,Size,Rating,Comment,Info,Variation,\
