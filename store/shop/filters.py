@@ -12,7 +12,15 @@ class ProductFilter(FilterSet):
     # size = MultipleChoiceFilter(choices=Size.VALUE_CHOICES)
     # size = ModelMultipleChoiceFilter(field_name='variations__size',to_field_name='value',queryset=Size.objects.all()) #best but not working
     # size = ModelMultipleChoiceFilter(field_name='variations__size',to_field_name='size',queryset=Variation.objects.all().values_list('size__value',flat=True).distinct())
-    # size = ModelChoiceFilter(queryset=variation)
+    # size = MultipleChoiceFilter(field_name='size',method='size_filter',choices=Size.objects.all())
+
+    # def size_filter(self,queryset,name,value):
+        # print('########value',value)
+        # print('########listvalue',list(value))
+        # print('########**value',**value)
+        # queryset = queryset.filter(variations__size__value__in=value)
+        # return queryset
+
     def custom_search(self,queryset,name,value):
         queryset = queryset.filter(Q(name__icontains=value) | Q(info__value__icontains=value))
         return queryset
