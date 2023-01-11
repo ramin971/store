@@ -1,10 +1,10 @@
 from django.shortcuts import render,get_object_or_404
 from .filters import ProductFilter
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView,ListAPIView
+from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView,ListAPIView,CreateAPIView
 from .models import Product,Category,Color,Size,Rating,Comment,Info,Variation,\
     ProductImage,OrderItem,Basket,Profile,Address,ReceiverInformation,Province
-from .serializers import ProductSerializer,CategorySerializer
+from .serializers import ProductSerializer,CategorySerializer,RatingSerializer
 # from django.db.models.aggregates import Sum,Avg,Count,Min,Max
 from django.db.models import Avg,Sum,Min,Max,Count
 # Create your views here.
@@ -90,3 +90,8 @@ class CategoryDetail(RetrieveUpdateDestroyAPIView):
     #     # return super().update()
     # # def update(self, request, *args, **kwargs):
     #     # return super().update(request, *args, **kwargs)
+class Rating(CreateAPIView):
+    queryset=Rating.objects.all()
+    serializer_class = RatingSerializer
+    def get_serializer_context(self):
+        return {'user':self.request.user}

@@ -19,6 +19,20 @@ class InfoSerializer(serializers.ModelSerializer):
         # fields = ['id','value']
         fields = '__all__'
 
+class RatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ['id','product','user','rate']
+        read_only_fields=['id','user']
+
+    def create(self, validated_data):
+        print('####################')
+        print('@@@@@@@@@@',validated_data)
+        user=self.context.get('user')
+        print('user',user)
+        validated_data['user']=user
+        # self.user = user
+        return super(RatingSerializer,self).create(validated_data)
 
 class CategorySerializer(serializers.ModelSerializer):
     full_path=serializers.SerializerMethodField()
