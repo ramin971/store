@@ -1,25 +1,39 @@
-from django_filters.rest_framework import CharFilter,MultipleChoiceFilter,ModelChoiceFilter,ModelMultipleChoiceFilter,FilterSet,OrderingFilter,BooleanFilter,ChoiceFilter
+from django_filters.rest_framework import RangeFilter,CharFilter,FilterSet,OrderingFilter,BooleanFilter,NumericRangeFilter
 from .models import Product,Rating,Variation,Size
 from django.db.models import Q
-# from django.db.models import Avg
+from django.db.models import Avg,Max
 
-# SIZE_CHOICES=[(str(i),str(i)) for i in range(40,47)]
-# SIZE_CHOICES=Size.options.value.choieces
 
 class ProductFilter(FilterSet):
     q = CharFilter(label='search',method='custom_search')
     stock = BooleanFilter(field_name='variations__stock',method='filter_stock')
-    # size = MultipleChoiceFilter(choices=Size.VALUE_CHOICES)
+    size = CharFilter(label='size',method='custom_size')
     # size = ModelMultipleChoiceFilter(field_name='variations__size',to_field_name='value',queryset=Size.objects.all()) #best but not working
-    # size = ModelMultipleChoiceFilter(field_name='variations__size',to_field_name='size',queryset=Variation.objects.all().values_list('size__value',flat=True).distinct())
-    # size = MultipleChoiceFilter(field_name='size',method='size_filter',choices=Size.objects.all())
+    # price = NumericRangeFilter(label='price_range',field_name='variations__price')
+    price = RangeFilter(method='custom_price',label='price_range')
 
-    # def size_filter(self,queryset,name,value):
-        # print('########value',value)
-        # print('########listvalue',list(value))
-        # print('########**value',**value)
-        # queryset = queryset.filter(variations__size__value__in=value)
-        # return queryset
+
+    def custom_price(self,queryset,name,value):
+        print('#price-value',value,'#price-name',name) #-->price-value slice(Decimal('2000000'), Decimal('5000000'), None) #price-name price
+        # print('$$$$$value-split',value.split())
+        qp=self.request.query_params
+        price_min=qp.get('price_min',0)
+        max_price=queryset.aggregate(max_price=Max('variations__price'))['max_price']
+        print('$$$$$maxprice:',max_price,type(max_price))
+        price_max=qp.get('price_max',max_price)
+        queryset = queryset.filter(variations__price__range=(price_min,price_max))
+
+        return queryset
+        
+   
+
+    def custom_size(self,queryset,name,value):
+        print('#size-value',value,'#size-name',name)
+        print('#qp',self.request.query_params)
+        qp=self.request.query_params.getlist('size')
+        print(qp)
+        queryset = queryset.filter(variations__size__value__in=qp)
+        return queryset
 
     def custom_search(self,queryset,name,value):
         queryset = queryset.filter(Q(name__icontains=value) | Q(info__value__icontains=value))
@@ -62,19 +76,8 @@ class ProductFilter(FilterSet):
         # fields=['size']
         fields ={
             'category_id':['exact'],
-            'variations__price':['gt','lt'],
-            'variations__size':['exact'], #in url use id of size
-
-            # 'variations__size__VALUE_CHOICES':['exact']
-
-            # 'variations__size__value':['exact'] taki
-
-            # 'price':['gt','lt'],
+            'variations__price':['gt','lt'], #optional(duplicated)
+            'variations__size':['exact'], #in url use id of size.#optional(duplicated)
 
         }
 
-# class CustomOrderingFilter(OrderingFilter):
-#         def filter(self, qs, value):
-#             if any(v == 'rate' for v in value):
-#                 qs.order_by('avg_rate')
-#             return super(CustomOrderingFilter, self).filter(qs, value)
