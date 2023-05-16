@@ -1,0 +1,1839 @@
+{
+	"info": {
+		"_postman_id": "500ff270-3e22-4276-8646-c61c42932d1c",
+		"name": "futsal",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19584322"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "auth_create_token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"sogand\",\n    \"password\": \"animalfarm\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/auth/jwt/create/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"auth",
+								"jwt",
+								"create",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "auth_refresh_token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4MjQyOTg5MywianRpIjoiMmJlZjVlMWRlYzkyNDZjNTkzNWI4MjM5YWVmOTczMTEiLCJ1c2VyX2lkIjoxfQ.os7ZokzbGYFSZxyR-_T6HA7mnF9UuDT7QZlMXjvUkK0\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/auth/jwt/refresh/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"auth",
+								"jwt",
+								"refresh",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user_list",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/auth/users/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"auth",
+								"users",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "user_create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"ramin.rahmani971@gmail.com\",\n    \"username\": \"sogand\",\n    \"password\": \"animalfarm\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/auth/users/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"auth",
+										"users",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "user_me",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/auth/users/me/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"auth",
+								"users",
+								"me",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "user_me_update",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"ramin.rahmani971@gmail.com\",\n    \"username\": \"ramin021\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/auth/users/me/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"auth",
+										"users",
+										"me",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "user_me_delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgyMDA5NTkzLCJqdGkiOiI3ZDI1OGIyZWJhYzc0OTA4OWU4NTU5YTE0MjFmYzA0MiIsInVzZXJfaWQiOjJ9.ts-P6aud50FOo2wxxbpzBqT6u8z2Ues-9zQpDdr_CJk",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "text/plain",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "current_password",
+											"value": "animalfarm",
+											"type": "text"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "text"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/auth/users/me/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"auth",
+										"users",
+										"me",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "user_reset_password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgyMDA5NTkzLCJqdGkiOiI3ZDI1OGIyZWJhYzc0OTA4OWU4NTU5YTE0MjFmYzA0MiIsInVzZXJfaWQiOjJ9.ts-P6aud50FOo2wxxbpzBqT6u8z2Ues-9zQpDdr_CJk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"new_password\": \"animalfarm\",\n    \"current_password\": \"farmanimal\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/auth/users/set_password/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"auth",
+								"users",
+								"set_password",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user_reset_username",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgyMDA5NTkzLCJqdGkiOiI3ZDI1OGIyZWJhYzc0OTA4OWU4NTU5YTE0MjFmYzA0MiIsInVzZXJfaWQiOjJ9.ts-P6aud50FOo2wxxbpzBqT6u8z2Ues-9zQpDdr_CJk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"current_password\": \"animalfarm\",\n    \"new_username\": \"sogand\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/auth/users/set_username/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"auth",
+								"users",
+								"set_username",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "profile",
+			"item": [
+				{
+					"name": "profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/profile/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"profile",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "profile_create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"receiver\": {\n        \"full_name\": \"sogand\",\n        \"national_code\": \"4598651879\",\n        \"phone\": \"09355448778\",\n        \"postal_code\": \"3698878459\",\n        \"address\": {\n            \"province\": \"tehran\",\n            \"full_address\": \"some place\"\n        }\n    },\n    \"phone\": \"09355448778\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/profile/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"profile",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "profile_me",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/profile/me/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"profile",
+								"me",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "profile_me_update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"receiver\": {\n        \"full_name\": \"ramin\",\n        \"national_code\": \"4598651879\",\n        \"phone\": \"09355448778\",\n        \"postal_code\": \"3698878459\",\n        \"address\": {\n            \"province\": \"tehran\",\n            \"full_address\": \"some place\"\n        }\n    },\n    \"phone\": \"09355448778\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/profile/me/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"profile",
+										"me",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "profile_detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/profile/1/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"profile",
+								"1",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "profile_detail_update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"receiver\": {\n        \"full_name\": \"ramin\",\n        \"national_code\": \"4598651879\",\n        \"phone\": \"09355448778\",\n        \"postal_code\": \"3698878459\",\n        \"address\": {\n            \"province\": \"tehran\",\n            \"full_address\": \"some place\"\n        }\n    },\n    \"phone\": \"09355448778\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/profile/1/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"profile",
+										"1",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "product",
+			"item": [
+				{
+					"name": "category_list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/category/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"category",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "category_create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxNzI3MzA4LCJqdGkiOiIzOGJmZjk1Njg3MWE0ZTU2ODUzNTZlMzU3ZGNhM2ZjNSIsInVzZXJfaWQiOjF9.H8Jbl8cH2bRc7yKoAo31Z6DXDr1IhMuRjrmfTDcIxJ0",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"test\",\n    \"parent\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/category/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"category",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "category_detail",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/category/5",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"category",
+								"5"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "category_update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxNzI3MzA4LCJqdGkiOiIzOGJmZjk1Njg3MWE0ZTU2ODUzNTZlMzU3ZGNhM2ZjNSIsInVzZXJfaWQiOjF9.H8Jbl8cH2bRc7yKoAo31Z6DXDr1IhMuRjrmfTDcIxJ0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"test2\",\n    \"parent\": null\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/category/6/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"category",
+										"6",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "category_delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxNzI3MzA4LCJqdGkiOiIzOGJmZjk1Njg3MWE0ZTU2ODUzNTZlMzU3ZGNhM2ZjNSIsInVzZXJfaWQiOjF9.H8Jbl8cH2bRc7yKoAo31Z6DXDr1IhMuRjrmfTDcIxJ0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/category/5/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"category",
+										"5",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "products_list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/products/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"products",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "products_create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxNzI3MzA4LCJqdGkiOiIzOGJmZjk1Njg3MWE0ZTU2ODUzNTZlMzU3ZGNhM2ZjNSIsInVzZXJfaWQiOjF9.H8Jbl8cH2bRc7yKoAo31Z6DXDr1IhMuRjrmfTDcIxJ0",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"lonar gato\",\n    \"description\": \"The Nike Lunar Gato II is ideal for the small-sided game. Soft leather at the forefoot has a smooth, natural feel for precision strikes. Lunarlon cushioning feels springy and responsive, while rubber tread gives you traction for quick cuts on indoor surfaces.\",\n    \"info\": [{\"value\":\"Goat leather upper material\"},{\"value\":\"High flexibility\"},{\"value\":\"Hight ventilation\"},{\"value\":\"lunarlon technology\"}],\n    \"category\": 2,\n    \"variations\": [{\"color\":\"red\",\"size\":\"42\",\"price\":5800000,\"stock\":15,\"discount\":5}]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/products/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"products",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "product_detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/products/1/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"products",
+								"1",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "product_update",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxODE1OTg4LCJqdGkiOiIyNWNjYmU0YjZlNmI0YTIyYjdiYWFmNzE5M2MzMDJhMyIsInVzZXJfaWQiOjF9.WavHz_XYdcF9va6r9WmEwXycH-IdpmBa8NY4vg9wWvk",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"lunar gato\",\n    \"description\": \"The Nike Lunar Gato II is ideal for the small-sided game. Soft leather at the forefoot has a smooth, natural feel for precision strikes. Lunarlon cushioning feels springy and responsive, while rubber tread gives you traction for quick cuts on indoor surfaces.\",\n    \"info\": [{\"value\":\"Goat leather upper material\"},{\"value\":\"High flexibility\"},{\"value\":\"Hight ventilation\"},{\"value\":\"lunarlon technology\"}],\n    \"category\": 2,\n    \"variations\": [{\"color\":\"red\",\"size\":\"42\",\"price\":5800000,\"stock\":15,\"discount\":5}],\n    \"add_variations\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/products/1/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"products",
+										"1",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "product_delete",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxODE1OTg4LCJqdGkiOiIyNWNjYmU0YjZlNmI0YTIyYjdiYWFmNzE5M2MzMDJhMyIsInVzZXJfaWQiOjF9.WavHz_XYdcF9va6r9WmEwXycH-IdpmBa8NY4vg9wWvk",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/products/1/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"products",
+										"1",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "add_image",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTExNDkzLCJqdGkiOiI2NzA5OTBmZWNjMjc0MWIzYjNhNjhhNDM0NjFkYzI3YiIsInVzZXJfaWQiOjF9.QdCvd_zOdkVIViV7YGiV2se7O_rfmjXMSapKXbC_78w",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "product",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "images",
+									"type": "file",
+									"src": [
+										"/home/ramin/Downloads/futsal_pic/lunar1.JPG",
+										"/home/ramin/Downloads/futsal_pic/lunar2.JPG",
+										"/home/ramin/Downloads/futsal_pic/lunar3.JPG"
+									]
+								}
+							]
+						},
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/image/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"image",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "rate",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxNzI3MzA4LCJqdGkiOiIzOGJmZjk1Njg3MWE0ZTU2ODUzNTZlMzU3ZGNhM2ZjNSIsInVzZXJfaWQiOjF9.H8Jbl8cH2bRc7yKoAo31Z6DXDr1IhMuRjrmfTDcIxJ0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product\": 1,\n    \"rate\": 4\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/rate/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"rate",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "comment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxODE1OTg4LCJqdGkiOiIyNWNjYmU0YjZlNmI0YTIyYjdiYWFmNzE5M2MzMDJhMyIsInVzZXJfaWQiOjF9.WavHz_XYdcF9va6r9WmEwXycH-IdpmBa8NY4vg9wWvk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product\": 1,\n    \"text\": \"amazing....\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/comment/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"comment",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "variation_detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTExNDkzLCJqdGkiOiI2NzA5OTBmZWNjMjc0MWIzYjNhNjhhNDM0NjFkYzI3YiIsInVzZXJfaWQiOjF9.QdCvd_zOdkVIViV7YGiV2se7O_rfmjXMSapKXbC_78w",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/variation/1/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"variation",
+								"1",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "variation_update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTExNDkzLCJqdGkiOiI2NzA5OTBmZWNjMjc0MWIzYjNhNjhhNDM0NjFkYzI3YiIsInVzZXJfaWQiOjF9.QdCvd_zOdkVIViV7YGiV2se7O_rfmjXMSapKXbC_78w",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"price\": 5800000,\n    \"discount\": 5,\n    \"stock\": 10\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/variation/1/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"variation",
+										"1",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "variation_delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTExNDkzLCJqdGkiOiI2NzA5OTBmZWNjMjc0MWIzYjNhNjhhNDM0NjFkYzI3YiIsInVzZXJfaWQiOjF9.QdCvd_zOdkVIViV7YGiV2se7O_rfmjXMSapKXbC_78w",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/variation/1/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"variation",
+										"1",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "basket",
+			"item": [
+				{
+					"name": "province",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/province/?q=alb",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"province",
+								""
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "alb"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "receiver",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"full_name\": \"ramin rahmani\",\n    \"national_code\": \"1362874956\",\n    \"phone\": \"09374777695\",\n    \"postal_code\": \"3358795614\",\n    \"address\": {\n        \"province\": \"tehran\",\n        \"full_address\": \"shahryar-fararat-b4-p21\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/receiver/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"receiver",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "receiver_detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/receiver/1/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"receiver",
+								"1",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "receiver_update",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"full_name\": \"ramin rahmani\",\n    \"national_code\": \"1362874956\",\n    \"phone\": \"09374777695\",\n    \"postal_code\": \"3358795614\",\n    \"address\": {\n        \"province\": \"tehran\",\n        \"full_address\": \"shahryar-fararat-b4-p21\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/receiver/1/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"receiver",
+										"1",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "receiver_delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/receiver/1/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"receiver",
+										"1",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "coupon_list",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/coupon/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"coupon",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "coupon_create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"code\": \"Yalda_1402\",\n    \"amount\": 5\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/coupon/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"coupon",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "coupon_detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/coupon/1/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"coupon",
+								"1",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "coupon_update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"code\": \"Yalda_1402\",\n    \"amount\": 6\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/coupon/1/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"coupon",
+										"1",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "coupon_delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "text/plain",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/coupon/1/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"coupon",
+										"1",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "basket",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/basket/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"basket",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "basket_create",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"receiver\": 1,\n    \"coupon\": null\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/basket/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"basket",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "basket_detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/basket/9d94b97d-64e2-489d-aebf-3a147696de74/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"basket",
+								"9d94b97d-64e2-489d-aebf-3a147696de74",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "basket_update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"receiver\": 1,\n    \"coupon\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/basket/9d94b97d-64e2-489d-aebf-3a147696de74/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"basket",
+										"9d94b97d-64e2-489d-aebf-3a147696de74",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "basket_delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/basket/9d94b97d-64e2-489d-aebf-3a147696de74/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"basket",
+										"9d94b97d-64e2-489d-aebf-3a147696de74",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "add_item",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"variation\": 1,\n    \"quantity\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/items/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"items",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "item_detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://ramin021.pythonanywhere.com/items/1/",
+							"protocol": "http",
+							"host": [
+								"ramin021",
+								"pythonanywhere",
+								"com"
+							],
+							"path": [
+								"items",
+								"1",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "item_update",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"quantity\": 3\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/items/1/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"items",
+										"1",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "item_delete",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxOTg2NzY1LCJqdGkiOiIyNTQyZjEzZWQ2OWI0ZjZkOTA4YTIyODQxMDgyZGU0YyIsInVzZXJfaWQiOjF9.600DeLvwG4dS5mK__Dy9tsc2SVdP6D46fQYk-8ksrcA",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://ramin021.pythonanywhere.com/items/1/",
+									"protocol": "http",
+									"host": [
+										"ramin021",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"items",
+										"1",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		}
+	]
+}
